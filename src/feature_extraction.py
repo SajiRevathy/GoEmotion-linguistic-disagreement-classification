@@ -1,8 +1,10 @@
 import pandas as pd
+import numpy as np
 import spacy
 import re
 import sys
 from pathlib import Path
+from better_profanity import profanity
 from textblob import TextBlob          
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
@@ -117,6 +119,10 @@ def extract_features_from_doc(doc, original_text):
     # neg, neu, pos → proportion of text that is negative/neutral/positive
     # compound      → overall sentiment strength -1.0 to +1.0
     vs = vader.polarity_scores(original_text)
+    
+    cap_words        = [t for t in doc if not t.is_space and len(t.text) >= 3 and t.text.isupper()]
+    allcaps_ratio    = len(cap_words) / n
+    avg_token_length = np.mean([len(t) for t in lower_tokens]) if lower_tokens else 0
 
     return {
         # --- Surface features ---
@@ -160,6 +166,11 @@ def extract_features_from_doc(doc, original_text):
         # emotional_conflict: are BOTH positive and negative meaningfully present?
         # True = sentence pulls in two directions = annotators will split
             "emotional_conflict": int(vs['pos'] > 0.1 and vs['neg'] > 0.1),
+            
+        # New features
+            "profanity_count"   : sum(1 for t in lower_tokens if profanity.contains_profanity(t)),
+            "allcaps_ratio"     : allcaps_ratio,
+            "avg_token_length"  : avg_token_length,
     }
 
 # Batch processing — same as before, no change needed here

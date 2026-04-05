@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+
 import sys
 from pathlib import Path
 from sklearn.linear_model import LogisticRegression
@@ -44,6 +44,9 @@ FEATURE_COLS = [
     "emotion_intensity",
     "emotional_conflict",
     "polarity",
+    "profanity_count",
+    "allcaps_ratio",
+    "avg_token_length",
 ]
 
 # Only keep columns that actually exist in your file
@@ -55,7 +58,8 @@ all_expected = [
     "contrast_count", "intensity_count", "exclamation_count",
     "sarcasm_markers", "dep_depth", "clause_count", "modal_count",
     "type_token_ratio", "is_question", "polarity", "verb_count","pronoun_count",
-    "emotion_diversity", "emotion_intensity", "emotional_conflict",
+    "emotion_diversity", "emotion_intensity", "emotional_conflict","profanity_count",
+    "allcaps_ratio","avg_token_length",
 ]
 
 missing = [c for c in all_expected if c not in df.columns]

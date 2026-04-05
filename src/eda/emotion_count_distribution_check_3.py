@@ -5,12 +5,16 @@
 
 
 import pandas as pd
+import sys
 from pathlib import Path
 
 # ── Load ──────────────────────────────────────────────────────────────
-BASE_DIR = Path.cwd()
-path     = BASE_DIR / 'data' / 'raw' / 'goemotions_full.csv'
-df       = pd.read_csv(path)
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+from config import RAW_FILE,RAW_DIR
+
+RAW_DIR.mkdir(parents=True, exist_ok=True)
+df = pd.read_csv(RAW_FILE)
 
 # ── Emotion columns ───────────────────────────────────────────────────
 EMOTION_COLS = [
@@ -21,6 +25,8 @@ EMOTION_COLS = [
     'pride', 'realization', 'relief', 'remorse', 'sadness',
     'surprise', 'neutral'
 ]
+
+print(len(EMOTION_COLS))
 
 # ── Check emotion count per annotator row ─────────────────────────────
 df['emotion_count'] = df[EMOTION_COLS].sum(axis=1)
