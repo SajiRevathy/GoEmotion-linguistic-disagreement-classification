@@ -1,0 +1,16 @@
+# Data handling
+pandas
+numpy
+scipy
+
+# NLP
+spacy
+nltk
+textblob
+better-profanity
+
+# Machine Learning
+scikit-learn
+
+# Visualisation
+matplotlib
