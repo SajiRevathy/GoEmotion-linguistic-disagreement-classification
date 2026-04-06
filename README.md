@@ -104,7 +104,7 @@ Download: [Google Research — GoEmotions](https://storage.googleapis.com/gresea
 ## Setup
 
 ```bash
-git clone https://github.com/your-username/linguistic-disagreement-classification.git
+git clone https://github.com/your-username/GoEmotion-linguistic-disagreement-classification.git
 cd linguistic-disagreement-classification
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
