@@ -10,6 +10,8 @@ import pandas as pd
 import numpy as np
 from scipy.stats import entropy
 from pathlib import Path
+
+import matplotlib.pyplot as plt
 import ast
 import sys
 
@@ -131,3 +133,17 @@ print(df['disagreement_category'].value_counts().to_string())
 print(df['disagreement_category'].value_counts(
       normalize=True).mul(100).round(1).astype(str).add('%').to_string())
 print(f"\nSaved to: {DISAGREEMENT_FILE}")
+
+
+
+plt.figure(figsize=(10, 5))
+plt.hist(df['disagreement_score'], bins=50, color='steelblue', edgecolor='white')
+plt.axvline(df['disagreement_score'].median(), color='red',    label=f"Median {df['disagreement_score'].median():.3f}")
+plt.axvline(df['disagreement_score'].mean(),   color='orange', label=f"Mean {df['disagreement_score'].mean():.3f}")
+plt.axvline(0.5, color='green', label='Fixed 0.5')
+plt.legend()
+plt.title('Disagreement Score Distribution')
+plt.xlabel('Disagreement Score')
+plt.ylabel('Number of Comments')
+plt.savefig('disagreement_distribution.png', dpi=150)
+plt.show()

@@ -27,7 +27,7 @@ def aggregate_comment(group):
         'annotator_count' : len(labels)
     })
 
-grouped = df.groupby('id', group_keys=False).apply(aggregate_comment).reset_index()
+grouped = df.groupby('id', group_keys=False).apply(aggregate_comment,include_groups=False).reset_index()
 print(f"Grouped! Unique comments: {len(grouped):,}")
 
 # ─────────────────────────────────────────────────────────────────────
