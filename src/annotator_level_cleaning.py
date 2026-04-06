@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 # ── Load ──────────────────────────────────────────────────────────────
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import RAW_FILE, PROC_DIR, ANNOTATOR_CLEAN_FILE
 df       = pd.read_csv(RAW_FILE)
 print(f"Loaded! Total rows: {len(df):,}")
@@ -87,9 +87,19 @@ print(df_clean.head(10).to_string(index=False))
 PROC_DIR.mkdir(parents=True, exist_ok=True)
 df_clean.to_csv(ANNOTATOR_CLEAN_FILE, index=False)
 
-print("\nSaved to: {ANNOTATOR_CLEAN_FILE}")
+print(f"\nSaved to: {ANNOTATOR_CLEAN_FILE}")
 print("\nFINAL SUMMARY:")
 print(f"   Original rows    : {len(df):,}")
 print(f"   Removed rows     : {removed:,}")
 print(f"   Final rows       : {len(df_clean):,}")
 print(f"   Columns          : {keep_cols}")
+
+# Simple version — just add at the end of annotator_level_cleaning.py
+multi_label_rate = (df['emotion_count'] > 1).mean()
+print(f"\nMulti-label rows: {multi_label_rate:.1%}")
+
+# Add this before removing, in annotator_level_cleaning.py
+multi_label_emotions = df[df['emotion_count'] > 1]
+print("\nEmotions most common in multi-label rows:")
+print(multi_label_emotions[EMOTION_COLS].sum().sort_values(ascending=False).head(10))
+
